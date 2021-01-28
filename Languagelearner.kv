@@ -1,0 +1,71 @@
+#:kivy 2.0.0
+
+<GameScreen>
+
+    canvas: 
+        Color:
+            rgba: 1,1,1,1
+        Rectangle:
+            pos: root.x, root.y
+            size: root.width, root.height
+
+    FloatLayout:
+        pos: 0, 0
+        size: root.width, root.height
+
+        Label:
+            pos_hint:{'x' : .1, 'y' : .85}
+            size_hint: .8,.1
+            text_size: self.size
+            text: 'pressy button app'
+            font_size : 20
+            bold: True
+            color: 0,241,80,1
+        
+        Label:
+            pos_hint:{'x' : 0.1, 'y': 0.7}
+            size_hint: .8,.1
+            text_size: self.size
+            text:'APP :):):):)'
+            font_size : 40
+            color: 234,0,0,1
+
+        GridLayout:
+            pos_hint: { 'x':0.1 , 'y': 0.25}
+            size_hint: None, None
+            size: root.width *0.8, root.width* 0.8
+            cols: 2
+
+            ImageBox:
+            ImageBox:
+            ImageBox:
+            ImageBox:
+
+
+<ImageBox>:
+
+    Button:
+        pos: root.x, root.y
+        size: root.width, root.height
+        
+    Image:
+        source: 'images/bote.png'
+        pos: root.x, root.y
+        size: root.width, root.height
+
+<ProgressBar>:
+    canvas: 
+        Color:
+            rgba: 0,0.5,0.2,1
+        Rectangle:
+            pos: self.x,self.y
+            size: self.width/2, self.height
+        BorderImage:
+            pos: self.width - 40
+            size: self.height -40, self.height -40
+            source: 'images/trophy.png'
+
+            
+            
+     
+                                   
