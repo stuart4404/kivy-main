@@ -1,14 +1,20 @@
 #:kivy 2.0.0
 
-<GameScreen>
+<GameScreen>:
+
 
     canvas: 
         Color:
-            rgba: 1,1,1,1
+            rgba: 41,0,0,1
         Rectangle:
             pos: root.x, root.y
             size: root.width, root.height
 
+        Color:
+            rgba: 1,1,1,1
+        Rectangle:
+            pos: root.x+5, root.y+5
+            size: root.width-10, root.height-10
     FloatLayout:
         pos: 0, 0
         size: root.width, root.height
@@ -22,14 +28,6 @@
             bold: True
             color: 0,241,80,1
         
-        Label:
-            pos_hint:{'x' : 0.1, 'y': 0.7}
-            size_hint: .8,.1
-            text_size: self.size
-            text:'APP :):):):)'
-            font_size : 40
-            color: 234,0,0,1
-
         GridLayout:
             pos_hint: { 'x':0.1 , 'y': 0.25}
             size_hint: None, None
@@ -41,29 +39,122 @@
             ImageBox:
             ImageBox:
 
+        ProgressBar:
+            pos_hint:{'x' : .1, 'y' : .1}
+            size_hint: 0.8, 0.1
+
 
 <ImageBox>:
 
-    Button:
-        pos: root.x, root.y
-        size: root.width, root.height
+    canvas:
+        Color:
+            rgba: 41,0,0,1
+        Rectangle:
+            pos: self.x, root.y
+            size: root.width, root.height
+
+        Color:
+            rgba: 1,1,1,1
+        Rectangle:
+            pos: root.x +5, root.y +5
+            size: root.width -10, root.height -10
+
         
+        
+
+    Button:
+        pos: root.x +5, root.y +5
+        size: root.width -10, root.height -10
+        background_normal: str(False)
+        on_press: self.parent.parent.parent.parent.show_end_game_popup()
+    
+    
     Image:
         source: 'images/bote.png'
-        pos: root.x, root.y
-        size: root.width, root.height
+        pos: root.x +5, root.y +5
+        size: root.width -10, root.height -10
+
+    
 
 <ProgressBar>:
     canvas: 
         Color:
-            rgba: 0,0.5,0.2,1
+            rgba: 0,0,0,1
         Rectangle:
             pos: self.x,self.y
-            size: self.width/2, self.height
+            size: self.width, self.height
+        
+        Color:
+            rgba: 1,1,1,1
+        Rectangle:
+            pos: self.x +5, self.y +5
+            size: self.width -10, self.height -10
+
+        Color:
+            rgba: 0,0.5,0.2,1
+        Rectangle:
+            pos: self.x +5,self.y +5
+            size: (self.width/2)-10, self.height-10
+        
+        Color:
+            rgba: 1,1,1,1
         BorderImage:
-            pos: self.width - 40
-            size: self.height -40, self.height -40
+            pos: self.width - 40, self.y +10
+            size: self.height -20, self.height -20
             source: 'images/trophy.png'
+
+
+<EndGameScreen>:
+
+    canvas: 
+        Color:
+            rgba: 41,0,0,1
+        Rectangle:
+            pos: self.x, self.y
+            size: self.width, self.height
+
+        Color:
+            rgba: 1,1,1,1
+        Rectangle:
+            pos: self.x+5, self.y+5
+            size: self.width-10,self.height-10
+
+    FloatLayout:
+        Label:
+            pos_hint:{'x':.1,'y': .8}
+            size_hint: 0.8,0.1
+            color: 0,0,0,1
+            bold: True
+            text_size: self.size
+            halign: 'left'
+            font_size: 30
+            text: 'Times UP!'
+        Label:
+            pos_hint:{'x':.1,'y': .55}
+            size_hint: 0.8,0.1
+            color: 0,0,0,1
+            bold: True
+            text_size: self.size
+            halign: 'left'
+            font_size: 40
+            text: 'your score'
+        Label:
+            pos_hint:{'x':.1,'y': .4}
+            size_hint: 0.8,0.1
+            color: 41,0,0,1
+            bold: True
+            text_size: self.size
+            halign: 'left'
+            font_size: 30
+            text: 'high score'
+        Button:
+            pos_hint:{'x':.1,'y': .1}
+            size_hint: 0.8,0.1
+            text: 'play agian?'
+            on_press:self.parent.parent.dismiss()
+                
+
+
 
             
             
