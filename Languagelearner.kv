@@ -23,7 +23,7 @@
             pos_hint:{'x' : .1, 'y' : .85}
             size_hint: .8,.1
             text_size: self.size
-            text: 'pressy button app'
+            text: self.parent.parent.correct_answer_text
             font_size : 20
             bold: True
             color: 0,241,80,1
@@ -35,10 +35,18 @@
             cols: 2
 
             ImageBox:
+                image_name: self.get_image_path(self.parent.parent.parent.display_image_names[0])
+                index: 0            
             ImageBox:
+                image_name: self.get_image_path(self.parent.parent.parent.display_image_names[1])
+                index: 1
             ImageBox:
+                image_name: self.get_image_path(self.parent.parent.parent.display_image_names[2])
+                index: 2
             ImageBox:
-
+                image_name: self.get_image_path(self.parent.parent.parent.display_image_names[3])
+                index: 3
+       
         ProgressBar:
             pos_hint:{'x' : .1, 'y' : .1}
             size_hint: 0.8, 0.1
@@ -70,7 +78,7 @@
     
     
     Image:
-        source: 'images/bote.png'
+        source: self.parent.image_name
         pos: root.x +5, root.y +5
         size: root.width -10, root.height -10
 
