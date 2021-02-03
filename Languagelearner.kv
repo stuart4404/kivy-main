@@ -74,7 +74,7 @@
         pos: root.x +5, root.y +5
         size: root.width -10, root.height -10
         background_normal: str(False)
-        on_press: self.parent.parent.parent.parent.show_end_game_popup()
+        on_press: self.parent.parent.parent.parent.make_selection(self.parent.index)
     
     
     Image:

@@ -41,7 +41,7 @@ class GameScreen(Widget):
     
     
     item_names = [
-        "bote.png",
+        "bote",
         "diamante",
         "espada",
         "hacha",
@@ -60,6 +60,22 @@ class GameScreen(Widget):
 
         #starts program with load new question function
     
+
+    def make_selection(self,index):
+        if self.check_if_answer_correct(index):
+            print("you got it!")
+            self.show_answer_popup(True)
+        else:
+            print("wrongo")
+            self.show_answer_popup(False)
+        
+
+
+    def check_if_answer_correct(self, index):
+        if index == self.correct_answer_index:
+            return True
+        return False
+    
     
     def get_random_image_names(self):
         temp_item_names = self.item_names.copy()
@@ -73,10 +89,10 @@ class GameScreen(Widget):
         #choose 4 random names into list items[]
 
 
-    def load_new_question(self):
+    def load_new_question(self, *args):
         self.display_image_names = self.get_random_image_names()
-        self.rand_index = randint(0,3)
-        self.correct_answer_index = self.display_image_names[self.rand_index]    
+        self.correct_answer_index = randint(0,3)
+        self.correct_answer_text = self.display_image_names[self.correct_answer_index]    
 
     
     def show_end_game_popup(self):
@@ -86,11 +102,11 @@ class GameScreen(Widget):
         end_game_screen.open()
         
     
-    def show_answer_popup(self):
-        content= Image(source='images/hacha.png')
+    def show_answer_popup(self, is_correct):
+        content= Image(source='images/' + self.correct_answer_text + '.png')
         
         popup = Popup(
-            title ='correct',
+            title ='correct' if is_correct else 'Wrong dummo',
             size_hint= (.5,.4),
             content= content,
             title_align = 'center',
@@ -98,11 +114,10 @@ class GameScreen(Widget):
             background='images/white.png',
             auto_dismiss =  True
             )
-        popup.bind(on_dismiss=self.print_something)
+        popup.bind(on_dismiss=self.load_new_question)
         popup.open()
 
-    def print_something(self,*args):
-        print("popup dismissed")
+    
 
 
 
