@@ -31,7 +31,7 @@ class ImageBox(Widget):
 class GameScreen(Widget):
     correct_answer_index = NumericProperty(0)
     display_image_names = ListProperty([
-        "bote.png",
+        "bote",
         "diamante",
         "espada",
         "hacha",
@@ -57,6 +57,8 @@ class GameScreen(Widget):
     def __init__(self,**kwargs):
         super(GameScreen,self).__init__(**kwargs)
         self.load_new_question()
+
+        #starts program with load new question function
     
     
     def get_random_image_names(self):
@@ -68,10 +70,12 @@ class GameScreen(Widget):
             del temp_item_names[rand_index]
         return items
 
+        #choose 4 random names into list items[]
+
 
     def load_new_question(self):
-        self.display_image_names = self.get_random_image_names
-        self.correct_answer_index = randint(0,3)
+        self.display_image_names = self.get_random_image_names()
+        self.rand_index = randint(0,3)
         self.correct_answer_index = self.display_image_names[self.rand_index]    
 
     
