@@ -8,12 +8,18 @@ from kivy.uix.popup import Popup
 from kivy.uix.image import Image
 from kivy.uix.modalview import ModalView
 from random import randint
+from kivy.clock import Clock
 
 Window.clearcolor = (1,1,1,1)
 Window.size = (400,600)
 
 class EndGameScreen(ModalView):
-    pass
+    final_score = NumericProperty(0)
+    high_score = NumericProperty(0)
+
+    def update_score(self, final_score, high_score):
+        self.final_score = final_score
+        self.high_score = high_score
     
 
 class Progressbar(Widget):
@@ -38,7 +44,8 @@ class GameScreen(Widget):
         ])
 
     correct_answer_text = StringProperty("bote")
-    
+    bar_width = NumericProperty(0)
+    answer_popup = Popup()
     
     item_names = [
         "bote",
@@ -52,6 +59,11 @@ class GameScreen(Widget):
         "roca",
         "tierra"
     ]
+
+    score = 0
+    high_score = 0
+    seconds = 0
+    is_game_over = False
 
 
     def __init__(self,**kwargs):
@@ -73,6 +85,7 @@ class GameScreen(Widget):
 
     def check_if_answer_correct(self, index):
         if index == self.correct_answer_index:
+            self.score += 1
             return True
         return False
     
@@ -99,13 +112,15 @@ class GameScreen(Widget):
         end_game_screen = EndGameScreen(
             size_hint= (.75,.6),
             auto_dismiss = False)
+        end_game_screen.update_score(self.score,self.high_score)
+        end_game_screen.bind(on_dismiss = self.reset)
         end_game_screen.open()
         
     
     def show_answer_popup(self, is_correct):
         content= Image(source='images/' + self.correct_answer_text + '.png')
         
-        popup = Popup(
+        self.answer_popup = Popup(
             title ='correct' if is_correct else 'Wrong dummo',
             size_hint= (.5,.4),
             content= content,
@@ -114,16 +129,40 @@ class GameScreen(Widget):
             background='images/white.png',
             auto_dismiss =  True
             )
-        popup.bind(on_dismiss=self.load_new_question)
-        popup.open()
+        self.answer_popup.bind(on_dismiss = self.load_new_question)
+        self.answer_popup.open()
 
-    
 
+    def increase_bar_width(self, *args):
+        if self.is_game_over:
+            return
+        width_increase = ((800 * 0.8) - 10)/60
+        self.bar_width += width_increase
+        self.seconds += 1
+        if self.seconds >= 30:
+            self.execute_end_game()
+
+    def execute_end_game(self):
+        self.is_game_over = True
+        if self.score > self.high_score:
+            self.high_score = self.score
+        self.show_end_game_popup()
+        
+
+    def reset(self, *args):
+        self.bar_width = 0
+        self.is_game_over = False
+        self.seconds = 0 
+        self.score = 0
+        self.answer_popup.dismiss() 
+        self.load_new_question()
 
 
 class LanguageLearnerApp(App):
     def build(self):
-        return GameScreen()
+        game_screen = GameScreen()
+        Clock.schedule_interval(game_screen.increase_bar_width,60.0/60.0)
+        return game_screen
 
 if __name__ == '__main__':
     LanguageLearnerApp().run()
